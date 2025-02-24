@@ -594,7 +594,16 @@ def normalize_columns(x: Tensor) -> Tensor:
     #                      TODO: Implement this function                     #
     ##########################################################################
     # Replace "pass" statement with your code
-    pass
+    # 计算每列的均值 (1, N)
+    mu = x.sum(dim=0, keepdim=True) / x.shape[0]
+
+    # 计算每列的标准差 (1, N)
+    # std = sqrt(mean((x - mean(x))^2))
+    diff = x - mu
+    sigma = torch.sqrt(torch.sum(diff ** 2, dim=0, keepdim=True) / (x.shape[0] -1))
+
+    # 标准化处理
+    y = (x - mu) / sigma
     ##########################################################################
     #                            END OF YOUR CODE                            #
     ##########################################################################
@@ -641,7 +650,7 @@ def mm_on_gpu(x: Tensor, w: Tensor) -> Tensor:
     #                      TODO: Implement this function                     #
     ##########################################################################
     # Replace "pass" statement with your code
-    pass
+    y = x.to('cuda').mm(w.to('cuda')).to('cpu')
     ##########################################################################
     #                            END OF YOUR CODE                            #
     ##########################################################################
