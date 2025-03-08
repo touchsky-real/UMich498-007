@@ -1,2 +1,3 @@
 *.tar.gz
+*.gz
 **/cifar-10*/
